@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TrabajofinalApplication<trabajofinal>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ies6.edu.ar.trabajofinal.trabajofinal.TrabajofinalApplication",
+            "projectName": "trabajofinal",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
