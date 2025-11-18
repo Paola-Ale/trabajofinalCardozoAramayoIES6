@@ -5,17 +5,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import jakarta.persistence.Column;
 
 
 @Component
 @Entity
 public class Vehiculo {
-
     @Id
     @GeneratedValue (strategy =GenerationType.IDENTITY)
     private Integer vehiculoId;
     @Column
+    @NotBlank (message="patente es un campo requerido")
+    @NotNull (message="patente es un campo requerido")
+    @Size (min=4, max=10, message="debe tener mas de 2 caracteres y menos de 10")
     private String patente;
     @Column
     private String marca;
@@ -41,7 +46,7 @@ public class Vehiculo {
         this.estado = estado;
     }
 
-    //metodos accesores
+    //metodos accesores Getters y Setters
     public Integer getVehiculoId() {
         return vehiculoId;
     }
@@ -89,7 +94,5 @@ public class Vehiculo {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-
 }
 
