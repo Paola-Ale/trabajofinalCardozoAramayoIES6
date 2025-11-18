@@ -3,6 +3,7 @@ package ies6.edu.ar.trabajofinal.trabajofinal.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,51 +14,54 @@ import org.springframework.web.servlet.ModelAndView;
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Vehiculo;
 import ies6.edu.ar.trabajofinal.trabajofinal.service.VehiculoServiceI;
 import jakarta.validation.Valid;
-
+import java.util.List;
 
 @Controller
 public class VehiculoController {
-    //atributos
-    @Qualifier ("servicioVehiculoMySQL")
+    // atributos
+    @Qualifier("servicioVehiculoMySQL")
     @Autowired
     VehiculoServiceI vehiculoService;
 
+    // crear
 
-    //crear
     @GetMapping("/vehiculo")
-    public ModelAndView getVehiculo() {
-
-        ModelAndView carrito =new ModelAndView("Vehiculo");
-       carrito.addObject("nuevoVehiculo", vehiculoService.crearNuevoVehiculo());
-       carrito.addObject("band", false);
-        return carrito;
+    public ModelAndView nuevoVehiculo() {
+        ModelAndView ModelAndView = new ModelAndView("vehiculos/nuevo");
+        ModelAndView.addObject("nuevoVehiculo", vehiculoService.crearNuevoVehiculo());
+        ModelAndView.addObject("band", false);
+        return ModelAndView;
     }
 
-     @PostMapping("/guardarVehiculo")
-     public ModelAndView saveVehiculo(@Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculoParaGuardar, 
-        BindingResult result) {
-        System.out.println("estoy ingresando al metodo de guardar");
-        ModelAndView modelAndView = new ModelAndView();
+
+    @PostMapping("/guardarVehiculo")
+    public ModelAndView saveVehiculo(
+            @Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculoParaGuardar,
+            BindingResult result) {
+
+        System.out.println("Ingresando al método de guardar");
+        ModelAndView ModelAndView = new ModelAndView();
+
         if (result.hasErrors()) {
-            modelAndView.setViewName("vehiculo");
-            modelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
-        } else {
-            try {
-                vehiculoService.agregarVehiculo(vehiculoParaGuardar);
-                modelAndView.setViewName("listaVehiculos");
-                modelAndView.addObject("correcto", "¡Vehiculo registrado con éxito!");
-            } catch (Exception e) {
-                // Mensaje de ERROR
-                modelAndView.addObject("errorVehiculo", "Error al guardar el vehiculo: " + e.getMessage());
-            }
-            modelAndView.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
-            System.out.println("estoy saliendo al metodo de guardar");
-            return modelAndView;
-        }
-        return modelAndView;
+            ModelAndView.setViewName("vehiculos/nuevo");
+            ModelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
+            return ModelAndView;
         }
 
-    //eliminar
+        try {
+            vehiculoService.agregarVehiculo(vehiculoParaGuardar);
+            ModelAndView.setViewName("listaVehiculos");
+            ModelAndView.addObject("correcto", "¡Vehiculo registrado con éxito!");
+        } catch (Exception e) {
+            ModelAndView.addObject("errorVehiculo", "Error al guardar el vehículo: " + e.getMessage());
+        }
+
+        ModelAndView.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
+        System.out.println("Saliendo del método de guardar");
+        return ModelAndView;
+    }
+
+    // eliminar
     @GetMapping("/eliminarVehiculo/{vehiculoId}")
     public ModelAndView borrarVehiculo(@PathVariable("vehiculoId") Integer vehiculoId) throws Exception {
         ModelAndView carritoDeEliminar = new ModelAndView("listaVehiculo");
@@ -66,16 +70,17 @@ public class VehiculoController {
         return carritoDeEliminar;
     }
 
-    //listado
-   @GetMapping("/listaVehiculo")
-    public ModelAndView listaVehiculo() {
-    ModelAndView carritoParaMostrarVehiculos = new ModelAndView("listaVehiculo");
-    carritoParaMostrarVehiculos.addObject("lista", vehiculoService.listarTodosVehiculos());
-    return carritoParaMostrarVehiculos;
+    // listado
+    @GetMapping("/listaVehiculo")
+    public ModelAndView listarTodosVehiculosActivos() {
+        ModelAndView carritoParaMostrarVehiculos = new ModelAndView("listaVehiculos");
+        carritoParaMostrarVehiculos.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
+        return carritoParaMostrarVehiculos;
     }
+
+    @GetMapping("/index")
+    public String getIndex() {
+        return "index";
+    }
+
 }
-
-
-
-
-

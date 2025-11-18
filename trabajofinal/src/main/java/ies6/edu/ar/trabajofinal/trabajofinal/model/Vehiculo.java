@@ -18,9 +18,6 @@ public class Vehiculo {
     @GeneratedValue (strategy =GenerationType.IDENTITY)
     private Integer vehiculoId;
     @Column
-    @NotBlank (message="patente es un campo requerido")
-    @NotNull (message="patente es un campo requerido")
-    @Size (min=4, max=10, message="debe tener mas de 2 caracteres y menos de 10")
     private String patente;
     @Column
     private String marca;
@@ -28,6 +25,8 @@ public class Vehiculo {
     private String color;
     @Column
     private String modelo;
+    @Column
+    private String tipoVehiculo;
     @Column
     private boolean estado;
     
@@ -37,12 +36,13 @@ public class Vehiculo {
     }
 
     //constructor parametrizado
-    public Vehiculo(Integer vehiculoId, String patente, String marca, String color, String modelo, boolean estado) {
+    public Vehiculo(Integer vehiculoId, String patente, String marca, String color, String modelo, String tipoVehiculo, boolean estado) {
         this.vehiculoId = vehiculoId;
         this.patente = patente;
         this.marca = marca;
         this.color = color;
         this.modelo = modelo;
+        this.tipoVehiculo=tipoVehiculo;
         this.estado = estado;
     }
 
@@ -87,6 +87,14 @@ public class Vehiculo {
         this.modelo = modelo;
     }
 
+     public String getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+
+    public void setTipoVehiculo(String tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
+        
     public boolean isEstado() {
         return estado;
     }
@@ -94,5 +102,6 @@ public class Vehiculo {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+    
 }
 

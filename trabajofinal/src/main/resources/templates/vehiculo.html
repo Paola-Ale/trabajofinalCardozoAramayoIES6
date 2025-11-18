@@ -4,44 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEHICULOS</title>
+    <title>Vehiculos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1> DATOS DEL VEHICULO </h1>
+    <div class="container">
+        <header>
+            encabezado
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">Vehiculos</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Carga de Vehiculo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Mostrar Vehiculo</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
 
-    <form data-th-object="${nuevoVehiculo}"
-          data-th-action="${band}?@{/modificarVehiculo}:@{/guardarVehiculo}"
-          method="post"
-          enctype="multipart/form-data">
+        <main>
 
-        <label>vehiculoId</label>
-        <input type="text" placeholder="ingresar id del vehiculo"
-               data-th-field="*{vehiculoId}" required
-               data-th-readonly="${band}" />
+            <form>
+                <div class="row">
+                <div class="col-6">
+                    <label for="vehiculoId" class="form-label">VehiculoId</label>
+                    <input type="text" class="form-control" id="vehiculoId" aria-describedby="35;36..." placeholder="ingrese el Id de vehiculo completo" required>
+                </div>
+                <div class="col-6">
+                    <label for="patente" class="form-label">Patente</label>
+                    <input type="text" class="form-control" id="patente" aria-describedby="abc123;..." placeholder="ingrese la patente de vehiculo completo" required>
+                </div>
+                </div>
 
-        <label>Patente</label>
-        <input type="text" placeholder="ingresar patente"
-               data-th-field="*{patente}" minlength="5" maxlength="20" />
+                <div class="mb-3">
+                    <label for="marca" class="form-label">Marca</label>
+                    <input type="text" class="form-control" id="marca" aria-describedby="Ford, Peugeot..">
+                </div>
+                <div class="mb-3">
+                    <label for="color" class="form-label">Color</label>
+                    <input type="text" class="form-control" id="color">
+                </div>
 
-        <label>Marca</label>
-        <input type="text" placeholder="ingresar marca"
-               data-th-field="*{marca}" />
+               <div class="mb-3">
+                    <label for="modelo" class="form-label">Modelo</label>
+                    <input type="text" class="form-control" id="modelo">
+                </div>
 
-        <label>Modelo</label>
-        <input type="text" placeholder="ingresar modelo"
-               data-th-field="*{modelo}" />
+                <div class="form-check">
+               <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
+              <label class="form-check-label" for="radioDefault1">
+               Femenino
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" >
+  <label class="form-check-label" for="radioDefault2">
+    Masculino
+  </label>
+</div>
+                <button type="submit" class="btn btn-primary">Cargar Vehiculo</button>
+            </form>
 
 
-        <label>Estado</label>
-        <select data-th-field="*{estado}">
-            <option value="true">Activo</option>
-            <option value="false">Inactivo</option>
-        </select>
+             <div class="container text-center">
+                <div class="col-md-6">
+            <label class="form-label" for="tipoVehiculo">Tipo de vehículo</label>
+            <select class="form-select" id="tipoVehiculo" th:field="*{tipoVehiculo}" required>
+                <option value="">Seleccione...</option>
+                <option value="X">X (base)</option>
+                <option value="LUXE">Luxe (+10%)</option>
+                <option value="PREMIUM">Premium (+20%)</option>
+            </select>
+             </div>
+             
+                </div>
+                <div class="row">
+                    <div style="background-color: aqua;" class="col-7">columna de 9 espacios bootstrap</div>
+                    <div style="background-color: rgb(21, 79, 79);" class="col-3">columna de 3 espacios bootstrap</div>
+                    <div style="background-color: rgb(211, 71, 106);" class="col-2">columna de 6 espacios bootstrap
+                    </div>
+                </div>
+            </div>
 
-        <button type="submit" th:text="${band} ? 'Modificar' : 'Ingresar' " ></button>
 
-    </form>
+
+        </main>
+
+        <footer> Quick Car por Cardozo-Aramayo </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
 
 </html>
