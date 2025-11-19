@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Usuario;
 
+
 @Service
 public interface UsuarioServiceI {
     public void borrarUsuario(String dni) throws Exception;

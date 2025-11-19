@@ -4,8 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import ies6.edu.ar.trabajofinal.trabajofinal.controller.UsuarioController;
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Usuario;
 import ies6.edu.ar.trabajofinal.trabajofinal.repository.UsuarioRepository;
 

@@ -31,12 +31,12 @@ public class UsuarioServiceImp implements UsuarioServiceI {
         listadoDeUsuarios.add(usuario);
         System.out.println(listadoDeUsuarios.size());
     }
-
     @Override
-    public void modificarUsuario (Usuario usuario) {
+    public void modificarUsuario(Usuario usuario) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarUnAlumno'");
+        throw new UnsupportedOperationException("Unimplemented method 'modificarAlumno'");
     }
+
 
     @Override
     public List<Usuario> listarTodosUsuarios() {
