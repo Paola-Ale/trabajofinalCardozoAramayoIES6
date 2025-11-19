@@ -2,7 +2,8 @@ package ies6.edu.ar.trabajofinal.trabajofinal.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service; 
+import org.springframework.stereotype.Service;
+
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Vehiculo;
 
 @Service

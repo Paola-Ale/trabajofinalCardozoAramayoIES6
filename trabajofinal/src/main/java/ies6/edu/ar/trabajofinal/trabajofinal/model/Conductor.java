@@ -4,10 +4,11 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
@@ -17,13 +18,17 @@ public class Conductor {
     private String dni;
     @Column
     private String nombre;
-    @Column 
+    @Column
+    @NotBlank(message = "apellido es un campo requerido")
+    @NotNull(message = "apellido is required")
+    @Size(min = 2, max = 10, message = "debe tener mas de 2 caracteres y menos de 10")
     private String apellido;
     @Column
     private String telefono;
     @Column
     private boolean estado;
-
+    @OneToOne(mappedBy = "conductor")
+    private Vehiculo vehiculo;
 
     public Conductor() {
     }
@@ -76,5 +81,12 @@ public class Conductor {
         this.estado = estado;
     }
 
-    
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
 }

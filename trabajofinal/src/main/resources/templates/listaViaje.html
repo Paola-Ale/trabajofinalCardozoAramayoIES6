@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>INGRESAR VIAJE</title>
+    <title>Listado de Viajes</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
@@ -10,49 +10,47 @@
 <body class="bg-light">
 
 <div class="container mt-4">
-    <h2 class="mb-4 text-center">INGRESAR VIAJE</h2>
 
-    <form data-th-action="@{/guardarViaje}" data-th-object="${nuevoViaje}" method="post" class="card p-4 shadow">
+    <h2 class="mb-4 text-center">Listado de Viajes</h2>
 
-        <div class="mb-3">
-            <label class="form-label">Usuario</label>
-            <select class="form-select" th:field="*{usuario.dni}" required>
-                <option value="">Seleccione un usuario</option>
-                <option th:each="u : ${usuarios}" th:value="${u.dni}" th:text="${u.nombre}"></option>
-            </select>
-        </div>
+    <div th:if="${correcto}" class="alert alert-success" th:text="${correcto}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
 
-        <!-- SELECCIÓN DE VEHÍCULO -->
-        <div class="mb-3">
-            <label class="form-label">Vehículo</label>
-            <select class="form-select" th:field="*{vehiculo.vehiculoId}" required>
-                <option value="">Seleccione un vehículo</option>
-                <option th:each="v : ${vehiculos}" th:value="${v.vehiculoId}" 
-                        th:text="${v.marca + ' ' + v.modelo}">
-                </option>
-            </select>
-        </div>
+    <div class="table-responsive card p-3 shadow">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Vehículo</th>
+                    <th>Tipo de viaje</th>
+                    <th>Costo</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
 
-        <!-- SELECCIÓN DE TIPO DE VIAJE -->
-        <div class="mb-3">
-            <label class="form-label">Tipo de Viaje</label>
-            <select class="form-select" th:field="*{tipoViaje}" required>
-                <option value="">Seleccione tipo de viaje</option>
-                <option value="CORTA">Corta distancia</option>
-                <option value="MEDIA">Media distancia</option>
-                <option value="LARGA">Larga distancia</option>
-            </select>
-        </div>
+            <tbody>
+                <tr th:each="v : ${lista}">
+                    <td th:text="${v.viajeId}"></td>
+                    <td th:text="${v.usuario.nombre}"></td>
+                    <td th:text="${v.vehiculo.marca + ' ' + v.vehiculo.modelo}"></td>
+                    <td th:text="${v.tipoViaje}"></td>
+                    <td th:text="${v.costo}"></td>
+                    <td th:text="${v.fecha}"></td>
+                    <td>
+                        <a th:href="@{/modificarViaje/{id}(id=${v.viajeId})}" class="btn btn-sm btn-warning">Modificar</a>
+                        <a th:href="@{/eliminarViaje/{id}(id=${v.viajeId})}" class="btn btn-sm btn-danger"
+                           onclick="return confirm('¿Eliminar viaje?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
 
-        <!-- BOTÓN GUARDAR -->
-        <div class="text-center">
-            <button type="submit" class="btn btn-primary w-50">Guardar Viaje</button>
-        </div>
-
-    </form>
+        </table>
+    </div>
 
     <div class="text-center mt-3">
-        <a href="/listarViajes" class="btn btn-secondary">Volver al listado</a>
+        <a href="/Viaje" class="btn btn-success">Nuevo Viaje</a>
     </div>
 
 </div>

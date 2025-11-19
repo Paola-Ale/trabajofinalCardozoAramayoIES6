@@ -9,30 +9,25 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Vehiculo;
 import ies6.edu.ar.trabajofinal.trabajofinal.service.VehiculoServiceI;
 import jakarta.validation.Valid;
-import java.util.List;
-
 
 @Controller
-public class VehiculoController {
 
-    // atributos
+public class VehiculoController {
     @Qualifier("servicioVehiculoMySQL")
     @Autowired
     VehiculoServiceI vehiculoService;
 
-    // crear
     @GetMapping("/vehiculo")
     public ModelAndView getVehiculo() {
+
         ModelAndView carrito = new ModelAndView("vehiculo");
         carrito.addObject("nuevoVehiculo", vehiculoService.crearNuevoVehiculo());
-        carrito.addObject("tipos", List.of("X", "LUXE", "PREMIUM"));
+        carrito.addObject("band", false);
         return carrito;
-
     }
 
     @PostMapping("/guardarVehiculo")
@@ -62,13 +57,12 @@ public class VehiculoController {
 
     @GetMapping("/eliminarVehiculo/{vehiculoId}")
     public ModelAndView eliminarVehiculo(@PathVariable(name = "vehiculoId") Integer vehiculoId) throws Exception {
-        ModelAndView carritoDeEliminar = new ModelAndView("listaVehiculo");
+        ModelAndView carritoDeEliminar = new ModelAndView("listaVehiculos");
         vehiculoService.borrarVehiculo(vehiculoId);
-        carritoDeEliminar.addObject("lista", vehiculoService.listarTodosVehiculos());
+        carritoDeEliminar.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
 
         return carritoDeEliminar;
     }
-
 
     // MODIFICAR
     @GetMapping("/modificarVehiculo/{vehiculoId}")
@@ -81,23 +75,25 @@ public class VehiculoController {
 
     @PostMapping("/modificarVehiculo")
     public ModelAndView modificarVehiculo(@ModelAttribute("nuevoVehiculo") Vehiculo vehiculoModificado) {
-        ModelAndView listadoEditado = new ModelAndView("listaVehiculo");
+        ModelAndView listadoEditado = new ModelAndView("listaVehiculos");
         vehiculoService.agregarVehiculo(vehiculoModificado);
         listadoEditado.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
 
         return listadoEditado;
     }
 
-    @GetMapping("/listaVehiculo")
-    public ModelAndView listarVehiculoActivos() {
-        ModelAndView carritoParaMostrarVehiculos = new ModelAndView("listaVehiculo");
+    @GetMapping("/listarVehiculos")
+    public ModelAndView listarVehiculosActivos() {
+        ModelAndView carritoParaMostrarVehiculos= new ModelAndView("listaVehiculos");
         carritoParaMostrarVehiculos.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
+
         return carritoParaMostrarVehiculos;
     }
 
     @GetMapping("/vehiculo/index")
     public String getIndex() {
-        return "vehiculoIndex";
+        return "vehiculo";
     }
+
 
 }

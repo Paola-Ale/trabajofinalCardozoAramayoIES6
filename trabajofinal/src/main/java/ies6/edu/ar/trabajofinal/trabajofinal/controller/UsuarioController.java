@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Usuario;
 import ies6.edu.ar.trabajofinal.trabajofinal.service.UsuarioServiceI;
 import jakarta.validation.Valid;
 
 @Controller
+@RequestMapping("/usuario")
 
 public class UsuarioController {
     @Qualifier("servicioUsuarioMySQL")
@@ -90,10 +91,8 @@ public class UsuarioController {
 
         return carritoParaMostrarUsuarios;
     }
-
-    @GetMapping("/index")
-    public String getIndex() {
-        return "index";
-    }
-
+ @GetMapping("/usuario/index")
+public String getIndex() {
+    return "usuario";
 }
+    }

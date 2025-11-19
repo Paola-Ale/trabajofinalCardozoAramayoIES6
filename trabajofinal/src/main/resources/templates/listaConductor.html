@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Vehículos</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    
+    <div data-th-replace="~{layout :: header}"></div>
+
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">LISTA DE VEHÍCULOS</h1>
+
+        
+        <div class="alert alert-success" data-th-if="${correcto}" data-th-text="${correcto}"></div>
+        <div class="alert alert-danger" data-th-if="${errorVehiculo}" data-th-text="${errorVehiculo}"></div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover shadow-sm bg-white">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Patente</th>
+                        <th>Marca</th>
+                        <th>Modelo</th>
+                        <th>Color</th>
+                        <th>Tipo</th>
+                        <th>Estado</th>
+                        <th>Conductor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-th-each="vehiculo : ${lista}">
+                        <td data-th-text="${vehiculo.vehiculoId}"></td>
+                        <td data-th-text="${vehiculo.patente}"></td>
+                        <td data-th-text="${vehiculo.marca}"></td>
+                        <td data-th-text="${vehiculo.modelo}"></td>
+                        <td data-th-text="${vehiculo.color}"></td>
+                        <td data-th-text="${vehiculo.tipoVehiculo}"></td>
+                        <td data-th-text="${vehiculo.estado} ? 'Activo' : 'Inactivo'"></td>
+                        <td data-th-text="${vehiculo.conductor != null ? vehiculo.conductor.nombre + ' ' + vehiculo.conductor.apellido : 'Sin Conductor'}"></td>
+                        <td>
+                            <a class="btn btn-sm btn-primary mb-1" 
+                               data-th-href="@{/vehiculo/modificarVehiculo/{id}(id=${vehiculo.vehiculoId})}">
+                               <i class="bi bi-pencil"></i> Modificar
+                            </a>
+                            <a class="btn btn-sm btn-danger" 
+                               data-th-href="@{/vehiculo/eliminarVehiculo/{id}(id=${vehiculo.vehiculoId})}" 
+                               onclick="return confirm('¿Está seguro de eliminar este vehículo?');">
+                               <i class="bi bi-trash"></i> Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                    <tr data-th-if="${#lists.isEmpty(lista)}">
+                        <td colspan="9" class="text-center">No hay vehículos registrados.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-4">
+            <a class="btn btn-dark" data-th-href="@{/vehiculo/vehiculo}">Agregar Nuevo Vehículo</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

@@ -94,6 +94,8 @@
                     <th>Color</th>
 					<th>Modelo</th>
 					<th>Estado</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
                 </tr>
 
                 <tr data-th-each="a : ${lista}">
@@ -103,6 +105,7 @@
 					<td th:text="${a.color}"></td>
 					<td th:text="${a.modelo}"></td>
 					<td th:text="${a.estado}"></td>
+                    <td th:text="${vehiculo.tipoVehiculo}"></td>
                     <td>
                         <a data-th-href="@{'/eliminarVehiculo/' + ${a.vehiculoId}}" class="btn btn-danger btn-sm">Borrar</a>
                         <a data-th-href="@{'/modificarVehiculo/' + ${a.vehiculoId}}" class="btn btn-success btn-sm ms-2">Editar</a>

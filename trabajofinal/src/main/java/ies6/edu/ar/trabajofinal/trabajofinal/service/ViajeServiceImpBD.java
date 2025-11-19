@@ -1,6 +1,6 @@
 package ies6.edu.ar.trabajofinal.trabajofinal.service;
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Viaje;
-import ies6.edu.ar.trabajofinal.trabajofinal.repository.ConductorRepository;
-import ies6.edu.ar.trabajofinal.trabajofinal.repository.UsuarioRepository;
-import ies6.edu.ar.trabajofinal.trabajofinal.repository.VehiculoRepository;
+//import ies6.edu.ar.trabajofinal.trabajofinal.repository.ConductorRepository;
+//import ies6.edu.ar.trabajofinal.trabajofinal.repository.UsuarioRepository;
+//import ies6.edu.ar.trabajofinal.trabajofinal.repository.VehiculoRepository;
 import ies6.edu.ar.trabajofinal.trabajofinal.repository.ViajeRepository;
 
 @Service

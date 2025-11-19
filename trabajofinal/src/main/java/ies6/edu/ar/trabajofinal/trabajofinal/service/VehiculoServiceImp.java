@@ -11,13 +11,12 @@ import ies6.edu.ar.trabajofinal.trabajofinal.model.Vehiculo;
 import ies6.edu.ar.trabajofinal.trabajofinal.repository.VehiculoRepository;
 
 @Service
-@Qualifier("servicioVehiculoArrayList")
-public class VehiculoServiceImp implements VehiculoServiceI{
-
+@Qualifier("servicioVehiculoMySQL")
+public class VehiculoServiceImp implements VehiculoServiceI {
     List<Vehiculo> listadoDeVehiculo = new ArrayList<Vehiculo>();
 
     @Autowired
-    Vehiculo nuevoVehiculo;
+    VehiculoRepository vehiculoRepository;
 
     @Override
     public void borrarVehiculo(Integer vehiculoId) throws Exception {
@@ -30,25 +29,23 @@ public class VehiculoServiceImp implements VehiculoServiceI{
         listadoDeVehiculo.add(vehiculo);
         System.out.println(listadoDeVehiculo.size());
     }
-    
+
     @Override
     public void modificarVehiculo(Vehiculo vehiculo) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'modificarVehiculo'");
     }
 
-     @Override
+    @Override
     public Vehiculo buscarUnVehiculo(Integer vehiculoId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'buscarUnVehiculo'");
     }
 
-
     @Override
     public List<Vehiculo> listarTodosVehiculos() {
         return listadoDeVehiculo;
     }
-    
 
     @Override
     public Vehiculo buscarVehiculoPorPatente(String patente) {
@@ -58,7 +55,7 @@ public class VehiculoServiceImp implements VehiculoServiceI{
 
     @Override
     public Vehiculo crearNuevoVehiculo() {
-        return nuevoVehiculo;
+        return new Vehiculo();
     }
 
     @Override
@@ -67,11 +64,10 @@ public class VehiculoServiceImp implements VehiculoServiceI{
         throw new UnsupportedOperationException("Unimplemented method 'listarTodosVehiculosActivos'");
     }
 
-     @Override
+    @Override
     public Vehiculo tipoVehiculo() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'listarTodosVehiculosActivos'");
     }
 
 }
-

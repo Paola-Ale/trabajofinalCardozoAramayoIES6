@@ -34,7 +34,7 @@ public class UsuarioServiceImpBD implements UsuarioServiceI {
     @Override
     public void modificarUsuario (Usuario usuario) {
          // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarUnAlumno'");
+        throw new UnsupportedOperationException("Unimplemented method 'buscarUnUsuario'");
     }
 
     @Override
@@ -51,7 +51,7 @@ public class UsuarioServiceImpBD implements UsuarioServiceI {
     @Override
     public Usuario buscarUnPorNombreUsuario(String nombre) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarUnPorNombreAlumno'");
+        throw new UnsupportedOperationException("Unimplemented method 'buscarUnPorNombreUsuario'");
     }
 
     @Override
