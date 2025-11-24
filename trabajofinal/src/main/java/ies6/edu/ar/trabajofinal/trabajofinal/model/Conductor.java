@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotBlank;
@@ -12,33 +13,40 @@ import jakarta.validation.constraints.Size;
 
 @Component
 @Entity
-
 public class Conductor {
     @Id
     private String dni;
+
     @Column
     private String nombre;
+
     @Column
     @NotBlank(message = "apellido es un campo requerido")
     @NotNull(message = "apellido is required")
-    @Size(min = 2, max = 10, message = "debe tener mas de 2 caracteres y menos de 10")
+    @Size(min = 2, max = 20, message = "debe tener mas de 2 caracteres y menos de 20")
     private String apellido;
+
     @Column
     private String telefono;
+
     @Column
-    private boolean estado;
-    @OneToOne(mappedBy = "conductor")
+    private boolean estado = true;
+
+    @OneToOne(mappedBy = "conductor", fetch = FetchType.LAZY)
     private Vehiculo vehiculo;
 
     public Conductor() {
     }
 
-    public Conductor(String dni, String nombre, String apellido, String telefono, boolean estado, Vehiculo vehiculo) {
+    public Conductor(String dni, String nombre,
+            @NotBlank(message = "apellido es un campo requerido") @NotNull(message = "apellido is required") @Size(min = 2, max = 20, message = "debe tener mas de 2 caracteres y menos de 20") String apellido,
+            String telefono, boolean estado, Vehiculo vehiculo) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
         this.telefono = telefono;
         this.estado = estado;
+        this.vehiculo = vehiculo;
     }
 
     public String getDni() {
@@ -89,4 +97,5 @@ public class Conductor {
         this.vehiculo = vehiculo;
     }
 
+    
 }

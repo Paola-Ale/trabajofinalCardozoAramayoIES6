@@ -4,7 +4,7 @@ import ies6.edu.ar.trabajofinal.trabajofinal.model.Viaje;
 public interface ViajeServiceI {
     public void borrarViaje(Integer viajeId) throws Exception;
     public void agregarViaje(Viaje viaje);
-    public void modificarViaje(Viaje viaje);
+    public void modificarViaje(Viaje viaje) throws Exception;
     public List<Viaje> listarTodosViajes();
     public Viaje buscarUnViaje(Integer viajeId) throws Exception;
     public Viaje crearNuevoViaje();

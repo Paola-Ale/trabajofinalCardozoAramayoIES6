@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-    
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuario</title>
 
-   
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
-
 <body class="bg-light">
-   
-     <div data-th-replace="~{layout :: header}"></div>
-
+     <div th:replace="~{layout :: header}"></div>
     <div class="container">
         
-    
-
     <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
         <div class="card shadow-lg p-4" style="width: 380px; border-radius: 15px;">
 
@@ -34,12 +28,18 @@
                     data-th-readonly="${band}" />
 
                 <label class="form-label mt-3">Nombre</label>
-                <input class="form-control" type="text" placeholder="ingresar nombre" data-th-field="*{nombre}" minlength="5" maxlength="20"/>
+                <input class="form-control" type="text" placeholder="ingresar nombre" data-th-field="*{nombre}"/>
 
                 <label class="form-label mt-3">Apellido</label>
                 <input class="form-control" type="text" placeholder="ingresar apellido" data-th-field="*{apellido}"/>
+                
+                 <label class="form-label mt-3">Telefono</label>
+                <input class="form-control" type="text" placeholder="ingresar telefono" data-th-field="*{telefono}"/>
+                
                 <label class="form-label mt-3">Email</label>
                 <input class="form-control" type="email" placeholder="ingresar email" data-th-field="*{email}" required/>
+                
+                
                 <span data-th-if="${#fields.hasErrors('apellido')}" data-th-errors="*{apellido}" class="text-danger small">
                     Error en el apellido
                 </span>
@@ -51,9 +51,10 @@
         </div>
     </div>
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-		crossorigin="anonymous"></script>
 </body>
 
 </html>
+
+

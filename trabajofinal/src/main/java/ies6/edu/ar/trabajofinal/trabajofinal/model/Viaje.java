@@ -34,7 +34,8 @@ public class Viaje {
     @Column
     private Double costo;
     @Column
-    private Boolean estado;
+    private Boolean estado = true;
+
    
    
    

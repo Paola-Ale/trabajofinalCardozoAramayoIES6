@@ -9,7 +9,7 @@ import ies6.edu.ar.trabajofinal.trabajofinal.model.Usuario;
 @Repository
 public interface UsuarioRepository extends CrudRepository<Usuario,String>{
 
-    public List<Usuario> findByEstado (Boolean estado);
+    List<Usuario> findByEstado(boolean estado);
     
     
 }

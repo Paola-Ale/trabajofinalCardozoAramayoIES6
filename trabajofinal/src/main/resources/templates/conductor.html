@@ -23,35 +23,23 @@
             <form th:object="${nuevoConductor}" th:action="${band} ? @{/modificarConductor} : @{/guardarConductor}"
                 method="post">
 
-
                 <label class="form-label">DNI</label>
                 <input class="form-control" type="text" placeholder="Ingrese DNI sin puntos" th:field="*{dni}"
                     th:readonly="${band}" required />
 
-
                 <label class="form-label mt-3">Nombre</label>
                 <input class="form-control" type="text" placeholder="Ingrese el nombre" th:field="*{nombre}" />
-
 
                 <label class="form-label mt-3">Apellido</label>
                 <input class="form-control" type="text" placeholder="Ingrese el apellido" th:field="*{apellido}" />
 
-
                 <label class="form-label mt-3">Teléfono</label>
                 <input class="form-control" type="text" placeholder="Ingrese teléfono" th:field="*{telefono}" />
 
-                <label class="form-label mt-3">Vehículo</label>
-                <select class="form-select" th:field="*{vehiculo.vehiculoId}">
-                    <option th:each="v : ${vehiculos}" th:value="${v.vehiculoId}"
-                        th:text="${v.patente} + ' - ' + ${v.marca}"></option>
 
 
-                    <span th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="text-danger small">
-                    </span>
-
-
-                    <button class="btn btn-dark w-100 mt-4" type="submit"
-                        th:text="${band} ? 'Modificar' : 'Registrar'"></button>
+                <button class="btn btn-dark w-100 mt-4" type="submit"
+                    th:text="${band} ? 'Modificar' : 'Registrar'"></button>
 
             </form>
 

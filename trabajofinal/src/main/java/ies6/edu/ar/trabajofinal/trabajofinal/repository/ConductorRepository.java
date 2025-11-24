@@ -11,6 +11,7 @@ import ies6.edu.ar.trabajofinal.trabajofinal.model.Conductor;
 @Repository
 public interface ConductorRepository extends CrudRepository<Conductor, String> {
 
-public List<Conductor> findByEstado (Boolean estado); Optional<Conductor> findByDni(String dni);
+public List<Conductor> findByEstado (boolean estado); Optional<Conductor> findByDni(String dni);
+
 }
 

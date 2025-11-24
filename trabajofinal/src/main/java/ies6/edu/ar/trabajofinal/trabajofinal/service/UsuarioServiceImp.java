@@ -18,7 +18,6 @@ public class UsuarioServiceImp implements UsuarioServiceI {
     
     @Autowired
     Usuario nuevoUsuario;
-    
 
     @Override
     public void borrarUsuario (String dni) {
@@ -65,5 +64,8 @@ public class UsuarioServiceImp implements UsuarioServiceI {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'listarTodosUsuariosActivos'");
     }
+    
+
+    
     
 }

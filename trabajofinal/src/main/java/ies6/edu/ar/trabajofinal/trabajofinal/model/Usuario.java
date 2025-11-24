@@ -5,9 +5,7 @@ import org.springframework.stereotype.Component;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+
 
 @Component
 @Entity
@@ -17,17 +15,14 @@ public class Usuario {
     private String dni;
     @Column 
     private String nombre;
-    @Column
-    @NotBlank(message="apellido es un campo requerido")
-    @NotNull(message="apellido is required")
-    @Size(min=2, max=10, message="debe tener mas de 2 caracteres y menos de 10")
+   
     private String apellido;
     @Column
     private String telefono;
     @Column
     private String email;
     @Column
-    private Boolean estado;
+    private Boolean estado=true;
    
     //constructores por defecto
    

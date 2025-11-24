@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Usuario;
@@ -16,7 +16,7 @@ import ies6.edu.ar.trabajofinal.trabajofinal.service.UsuarioServiceI;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/usuario")
+//@RequestMapping("/usuario")
 
 public class UsuarioController {
     @Qualifier("servicioUsuarioMySQL")
@@ -96,3 +96,4 @@ public String getIndex() {
     return "usuario";
 }
     }
+

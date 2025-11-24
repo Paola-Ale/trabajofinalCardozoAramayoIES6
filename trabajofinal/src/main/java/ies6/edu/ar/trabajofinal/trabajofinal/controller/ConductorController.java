@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Conductor;
@@ -16,7 +15,7 @@ import ies6.edu.ar.trabajofinal.trabajofinal.service.ConductorServiceI;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/conductor")
+//@RequestMapping("/conductor")
 public class ConductorController {
     @Qualifier ("servicioConductorMySQL")
     @Autowired
@@ -43,7 +42,7 @@ public class ConductorController {
         } else {
             try {
                 conductorService.agregarConductor(conductorParaGuardar);
-                modelAndView.setViewName("listaconductores");
+                modelAndView.setViewName("listaConductor");
                 modelAndView.addObject("correcto", "¡Conductor registrado con éxito!");
             } catch (Exception e) {
                 // Mensaje de ERROR
@@ -58,8 +57,8 @@ public class ConductorController {
     }
 
     @GetMapping("/eliminarConductor/{dni}")
-    public ModelAndView eliminarUsuario(@PathVariable(name = "dni") String dni) throws Exception {
-        ModelAndView carritoDeEliminar = new ModelAndView("listaUsuarios");
+    public ModelAndView eliminarConductor(@PathVariable(name = "dni") String dni) throws Exception {
+        ModelAndView carritoDeEliminar = new ModelAndView("listaConductor");
         conductorService.borrarConductor(dni);
         carritoDeEliminar.addObject("lista", conductorService.listarTodosConductoresActivos());
 
@@ -76,17 +75,17 @@ public class ConductorController {
     }
 
     @PostMapping("/modificarConductor")
-    public ModelAndView modificarConductor(@ModelAttribute("nuevoCondcutor") Conductor conductorModificado) {
-        ModelAndView listadoEditado = new ModelAndView("listaUsuarios");
+    public ModelAndView modificarConductor(@ModelAttribute("nuevoConductor") Conductor conductorModificado) {
+        ModelAndView listadoEditado = new ModelAndView("listaConductor");
         conductorService.agregarConductor(conductorModificado);
         listadoEditado.addObject("lista", conductorService.listarTodosConductoresActivos());
 
         return listadoEditado;
     }
 
-    @GetMapping("/listarUsuarios")
+    @GetMapping("/listarConductores")
     public ModelAndView listarConductoresActivos() {
-        ModelAndView carritoParaMostrarConductor = new ModelAndView("listaUsuarios");
+        ModelAndView carritoParaMostrarConductor = new ModelAndView("listaConductor");
         carritoParaMostrarConductor.addObject("lista", conductorService.listarTodosConductoresActivos());
 
         return carritoParaMostrarConductor;

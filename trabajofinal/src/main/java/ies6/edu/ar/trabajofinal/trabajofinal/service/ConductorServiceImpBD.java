@@ -42,7 +42,8 @@ public void borrarConductor(String dni) throws Exception {
     }
 
     public Conductor buscarUnConductor(String dni) throws Exception {
-        return conductorRepository.findByDni(dni).orElseThrow(()-> new Exception("conductor no encontrado"));
+        return conductorRepository.findByDni(dni)
+        .orElseThrow(()-> new Exception("conductor no encontrado"));
         
     }
 
@@ -56,9 +57,10 @@ public void borrarConductor(String dni) throws Exception {
     }
 
     public List<Conductor> listarTodosConductoresActivos() {
-        return (List<Conductor>) conductorRepository;
+        return conductorRepository.findByEstado(true);
     }
     
 }
+
 
 

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
-
-<head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LISTA DE VEHICULO</title>
@@ -45,37 +43,12 @@
     </style>
 </head>
    <header>
-            QuickCards
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">VEHICULOS</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">INICIO</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">VEHICULO</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">LISTA VEHICULO</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" aria-disabled="true"></a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+           
+        <div th:replace="layout :: header"></div>
         </header>
 
 <body>
-	<div data-th-replace="~{layout :: header}"></div>
-
+   
     <div class="container">
 
         <div data-th-if="${correcto}" class="alert alert-success text-center fw-bold">
@@ -92,8 +65,8 @@
                     <th>Patente</th>
                     <th>Marca</th>
                     <th>Color</th>
-					<th>Modelo</th>
-					<th>Estado</th>
+                    <th>Modelo</th>
+                    <th>Estado</th>
                     <th>Tipo</th>
                     <th>Acciones</th>
                 </tr>
@@ -102,10 +75,10 @@
                     <td th:text="${a.vehiculoId}"></td>
                     <td th:text="${a.patente}"></td>
                     <td th:text="${a.marca}"></td>
-					<td th:text="${a.color}"></td>
-					<td th:text="${a.modelo}"></td>
-					<td th:text="${a.estado}"></td>
-                    <td th:text="${vehiculo.tipoVehiculo}"></td>
+                    <td th:text="${a.color}"></td>
+                    <td th:text="${a.modelo}"></td>
+                    <td th:text="${a.estado}"></td>
+                    <td th:text="${a.tipoVehiculo}"></td>
                     <td>
                         <a data-th-href="@{'/eliminarVehiculo/' + ${a.vehiculoId}}" class="btn btn-danger btn-sm">Borrar</a>
                         <a data-th-href="@{'/modificarVehiculo/' + ${a.vehiculoId}}" class="btn btn-success btn-sm ms-2">Editar</a>
@@ -123,5 +96,7 @@
         crossorigin="anonymous"></script>
 
 </body>
+ 
+
 
 </html>

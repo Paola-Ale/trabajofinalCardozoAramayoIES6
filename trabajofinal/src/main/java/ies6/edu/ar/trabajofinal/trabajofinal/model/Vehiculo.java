@@ -34,12 +34,11 @@ public class Vehiculo {
     @Column
     private String tipoVehiculo;
     @Column
-    private boolean estado;
-
-
-    @OneToOne (fetch = FetchType.LAZY)
-    @JoinColumn (name="conductorDni")
+    private boolean estado=true;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conductorDni")
     private Conductor conductor;
+
 
 
     public Vehiculo() {

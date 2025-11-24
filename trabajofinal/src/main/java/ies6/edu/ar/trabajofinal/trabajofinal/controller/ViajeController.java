@@ -35,15 +35,19 @@ public class ViajeController {
     @Autowired
     VehiculoServiceI vehiculoService;
 
-    @GetMapping("/Viaje")
-    public ModelAndView getViaje() {
-        ModelAndView carrito = new ModelAndView("Viaje");
-        carrito.addObject("usuarios", usuarioService.listarTodosUsuarios());
-        carrito.addObject("vehiculos", vehiculoService.listarTodosVehiculos());
-        carrito.addObject("listaVehiculos", vehiculoService.listarTodosVehiculosActivos());
-        carrito.addObject("band", false);
-        return carrito;
-    }
+
+@GetMapping("/viaje")
+public ModelAndView getViaje() {
+
+    ModelAndView carrito = new ModelAndView("viaje"); 
+    
+    carrito.addObject("nuevoViaje", viajeService.crearNuevoViaje()); // Asumiendo que tienes este método
+    
+    carrito.addObject("usuarios", usuarioService.listarTodosUsuariosActivos()); // Mejor usar activos
+    carrito.addObject("vehiculos", vehiculoService.listarTodosVehiculosActivos());
+
+    return carrito;
+}
 
     @PostMapping("/guardarViaje")
     public ModelAndView guardarViaje(
@@ -76,7 +80,7 @@ public class ViajeController {
 
                 viajeService.agregarViaje(viajeParaGuardar);
 
-                modelAndView.setViewName("listaViajes");
+                modelAndView.setViewName("listaViaje");
                 modelAndView.addObject("correcto", "¡Viaje registrado con éxito!");
 
             } catch (Exception e) {
@@ -91,18 +95,22 @@ public class ViajeController {
 
     @GetMapping("/listarViajes")
     public ModelAndView listarViajes() {
-        ModelAndView vista = new ModelAndView("listaViajes");
+        ModelAndView vista = new ModelAndView("listaViaje");
         vista.addObject("lista", viajeService.listarTodosViajesActivos());
         return vista;
     }
 
     @GetMapping("/eliminarViaje/{viajeId}")
     public ModelAndView eliminarViaje(@PathVariable(name = "viajeId") Integer viajeId) throws Exception {
-        ModelAndView vista = new ModelAndView("listaViajes");
+        ModelAndView vista = new ModelAndView("listaViaje");
         viajeService.borrarViaje(viajeId);
         vista.addObject("lista", viajeService.listarTodosViajesActivos());
         return vista;
     }
+
+
+
+ 
 
     @GetMapping("/modificarViaje/{viajeId}")
     public ModelAndView buscarViajeParaModificar(@PathVariable(name = "viajeId") Integer viajeId) throws Exception {
@@ -117,9 +125,9 @@ public class ViajeController {
     }
 
     @PostMapping("/modificarViaje")
-    public ModelAndView modificarViaje(Viaje viajeModificado) {
+    public ModelAndView modificarViaje(@ModelAttribute("nuevoViaje") Viaje  viajeModificado) {
 
-        ModelAndView vista = new ModelAndView("listaViajes");
+        ModelAndView vista = new ModelAndView("listaViaje");
 
         try {
             Viaje viajeBD = viajeService.buscarUnViaje(viajeModificado.getViajeId());
