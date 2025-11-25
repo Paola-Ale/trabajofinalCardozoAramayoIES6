@@ -12,75 +12,144 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Vehiculo;
+
+import ies6.edu.ar.trabajofinal.trabajofinal.model.Conductor;
+import ies6.edu.ar.trabajofinal.trabajofinal.service.ConductorServiceI;
 import ies6.edu.ar.trabajofinal.trabajofinal.service.VehiculoServiceI;
 import jakarta.validation.Valid;
-import java.util.List;
 
 @Controller
+
 public class VehiculoController {
-    // atributos
     @Qualifier("servicioVehiculoMySQL")
     @Autowired
     VehiculoServiceI vehiculoService;
-
-    // crear
+    @Qualifier("servicioConductorMySQL")
+    @Autowired
+    ConductorServiceI conductorService;
 
     @GetMapping("/vehiculo")
-    public ModelAndView nuevoVehiculo() {
-        ModelAndView ModelAndView = new ModelAndView("vehiculos/nuevo");
-        ModelAndView.addObject("nuevoVehiculo", vehiculoService.crearNuevoVehiculo());
-        ModelAndView.addObject("band", false);
-        return ModelAndView;
+    public ModelAndView getVehiculo() {
+
+        ModelAndView carrito = new ModelAndView("vehiculo");
+        carrito.addObject("nuevoVehiculo", vehiculoService.crearNuevoVehiculo());
+        carrito.addObject("band", false);
+        // AÑADIDO: Pasar la lista de conductores a la vista 'vehiculo.html'
+        carrito.addObject("listaConductores", conductorService.listarTodosConductoresActivos());
+        return carrito;
     }
 
-
     @PostMapping("/guardarVehiculo")
-    public ModelAndView saveVehiculo(
-            @Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculoParaGuardar,
-            BindingResult result) {
+    public ModelAndView saveVehiculo(@Valid @ModelAttribute("nuevoVehiculo") Vehiculo vehiculoParaGuardar,
+            BindingResult result,
+            Model model) {
 
-        System.out.println("Ingresando al método de guardar");
-        ModelAndView ModelAndView = new ModelAndView();
+        System.out.println("estoy ingresando al metodo de guardar");
+        ModelAndView modelAndView = new ModelAndView();
 
         if (result.hasErrors()) {
-            ModelAndView.setViewName("vehiculos/nuevo");
-            ModelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
-            return ModelAndView;
+
+            modelAndView.setViewName("vehiculo");
+            modelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
+            // Recargar la lista de conductores
+            modelAndView.addObject("listaConductores", conductorService.listarTodosConductor());
+            return modelAndView;
+        }
+
+        Conductor conductorFormulario = vehiculoParaGuardar.getConductor();
+        boolean conductorAsignadoExitosamente = false;
+
+        if (conductorFormulario != null &&
+                conductorFormulario.getDni() != null &&
+                !conductorFormulario.getDni().isEmpty()) {
+
+            String dniSeleccionado = conductorFormulario.getDni();
+            Conductor conductorEncontrado = null;
+
+            try {
+                conductorEncontrado = conductorService.buscarUnConductor(dniSeleccionado);
+            } catch (Exception e) {
+                System.err.println("Error al buscar conductor por DNI: " + e.getMessage());
+                modelAndView.addObject("errorVehiculo",
+                        "Error de búsqueda: El DNI seleccionado no es válido o hay un error en el servidor. "
+                                + e.getMessage());
+            }
+
+            if (conductorEncontrado != null) {
+                vehiculoParaGuardar.setConductor(conductorEncontrado);
+                conductorAsignadoExitosamente = true;
+            } else {
+                vehiculoParaGuardar.setConductor(null);
+
+                if (modelAndView.getModel().containsKey("errorVehiculo")) {
+                    modelAndView.setViewName("vehiculo");
+                    modelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
+                    modelAndView.addObject("listaConductores", conductorService.listarTodosConductor());
+                    return modelAndView;
+                }
+            }
+        } else {
+            vehiculoParaGuardar.setConductor(null);
         }
 
         try {
             vehiculoService.agregarVehiculo(vehiculoParaGuardar);
-            ModelAndView.setViewName("listaVehiculos");
-            ModelAndView.addObject("correcto", "¡Vehiculo registrado con éxito!");
+
+            modelAndView.setViewName("redirect:/listaVehiculos");
+
+            System.out.println("Vehiculo guardado con éxito. Conductor asignado: " + conductorAsignadoExitosamente);
+
         } catch (Exception e) {
-            ModelAndView.addObject("errorVehiculo", "Error al guardar el vehículo: " + e.getMessage());
+            modelAndView.addObject("errorVehiculo", "Error al guardar el vehiculo: " + e.getMessage());
+
+            modelAndView.setViewName("vehiculo");
+            modelAndView.addObject("nuevoVehiculo", vehiculoParaGuardar);
+            modelAndView.addObject("listaConductores", conductorService.listarTodosConductor());
+            System.out.println("Error de persistencia: " + e.getMessage());
         }
 
-        ModelAndView.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
-        System.out.println("Saliendo del método de guardar");
-        return ModelAndView;
+        return modelAndView;
     }
 
-    // eliminar
     @GetMapping("/eliminarVehiculo/{vehiculoId}")
-    public ModelAndView borrarVehiculo(@PathVariable("vehiculoId") Integer vehiculoId) throws Exception {
+    public ModelAndView eliminarVehiculo(@PathVariable(name = "vehiculoId") Integer vehiculoId) throws Exception {
         ModelAndView carritoDeEliminar = new ModelAndView("listaVehiculo");
         vehiculoService.borrarVehiculo(vehiculoId);
-        carritoDeEliminar.addObject("listadoVehiculo", vehiculoService.listarTodosVehiculos());
+        carritoDeEliminar.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
+
         return carritoDeEliminar;
     }
 
-    // listado
-    @GetMapping("/listaVehiculo")
-    public ModelAndView listarTodosVehiculosActivos() {
-        ModelAndView carritoParaMostrarVehiculos = new ModelAndView("listaVehiculos");
+    // MODIFICAR
+    @GetMapping("/modificarVehiculo/{vehiculoId}")
+    public ModelAndView buscarVehiculoParaModificar(@PathVariable(name = "vehiculoId") Integer vehiculoId)
+            throws Exception {
+        ModelAndView carritoParaModificarVehiculo = new ModelAndView("vehiculo");
+        carritoParaModificarVehiculo.addObject("nuevoVehiculo", vehiculoService.buscarUnVehiculo(vehiculoId));
+        carritoParaModificarVehiculo.addObject("band", true);
+        return carritoParaModificarVehiculo;
+    }
+
+    @PostMapping("/modificarVehiculo")
+    public ModelAndView modificarVehiculo(@ModelAttribute("nuevoVehiculo") Vehiculo vehiculoModificado) {
+        ModelAndView listadoEditado = new ModelAndView("listaVehiculo");
+        vehiculoService.agregarVehiculo(vehiculoModificado);
+        listadoEditado.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
+
+        return listadoEditado;
+    }
+
+    @GetMapping("/listaVehiculos")
+    public ModelAndView listarVehiculosActivos() {
+        ModelAndView carritoParaMostrarVehiculos = new ModelAndView("listaVehiculo");
         carritoParaMostrarVehiculos.addObject("lista", vehiculoService.listarTodosVehiculosActivos());
+
         return carritoParaMostrarVehiculos;
     }
 
-    @GetMapping("/index")
+    @GetMapping("/vehiculo/index")
     public String getIndex() {
-        return "index";
+        return "vehiculo";
     }
 
 }

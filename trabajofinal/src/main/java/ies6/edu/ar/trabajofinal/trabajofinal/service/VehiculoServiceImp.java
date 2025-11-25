@@ -1,70 +1,69 @@
 package ies6.edu.ar.trabajofinal.trabajofinal.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import ies6.edu.ar.trabajofinal.trabajofinal.model.Vehiculo;
 import ies6.edu.ar.trabajofinal.trabajofinal.repository.VehiculoRepository;
 
 @Service
-@Qualifier("servicioVehiculoArrayList")
-public class VehiculoServiceImp implements VehiculoServiceI{
-
-    List<Vehiculo> listadoDeVehiculo = new ArrayList<Vehiculo>();
+@Qualifier("servicioVehiculoMySQL")
+public class VehiculoServiceImp implements VehiculoServiceI {
 
     @Autowired
-    Vehiculo nuevoVehiculo;
+    VehiculoRepository vehiculoRepository;
 
     @Override
     public void borrarVehiculo(Integer vehiculoId) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'borrarVehiculo'");
+        Vehiculo v = buscarUnVehiculo(vehiculoId);
+        v.setEstado(false); 
+        vehiculoRepository.save(v);
     }
 
     @Override
     public void agregarVehiculo(Vehiculo vehiculo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'agregarVehiculo'");
+        
+        vehiculo.setEstado(true);
+        System.out.println(vehiculo.toString());
+        vehiculoRepository.save(vehiculo);
     }
 
     @Override
     public void modificarVehiculo(Vehiculo vehiculo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'modificarVehiculo'");
-    }
-
-    @Override
-    public List<Vehiculo> listarTodosVehiculos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listarTodosVehiculos'");
+        vehiculoRepository.save(vehiculo);
     }
 
     @Override
     public Vehiculo buscarUnVehiculo(Integer vehiculoId) throws Exception {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarUnVehiculo'");
+        return vehiculoRepository.findById(vehiculoId)
+                .orElseThrow(() -> new Exception("Vehículo no encontrado"));
+    }
+
+    @Override
+    public List<Vehiculo> listarTodosVehiculos() {
+        return (List<Vehiculo>) vehiculoRepository.findAll();
     }
 
     @Override
     public Vehiculo buscarVehiculoPorPatente(String patente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscarVehiculoPorPatente'");
+        Optional<Vehiculo> v = vehiculoRepository.findByPatente(patente);
+        return v.orElse(null);
     }
 
     @Override
     public Vehiculo crearNuevoVehiculo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'crearNuevoVehiculo'");
+        return new Vehiculo();
     }
 
     @Override
     public List<Vehiculo> listarTodosVehiculosActivos() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listarTodosVehiculosActivos'");
+        return vehiculoRepository.findByEstado(true);
     }
-
 }
+
+    
 

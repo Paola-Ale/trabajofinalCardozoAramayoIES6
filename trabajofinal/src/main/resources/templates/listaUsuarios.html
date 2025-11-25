@@ -3,7 +3,7 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LISTA DE VEHICULO</title>
+    <title>LISTA USUARIOS</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
@@ -42,52 +42,44 @@
         }
     </style>
 </head>
-   <header>
-           
-        <div th:replace="layout :: header"></div>
-        </header>
+   
 
 <body>
-   
+    <div data-th-replace="~{layout :: header}"></div>
+
     <div class="container">
 
         <div data-th-if="${correcto}" class="alert alert-success text-center fw-bold">
             <span data-th-text="${correcto}"></span>
         </div>
 
-        <h1>LISTA DE VEHICULOS</h1>
+        <h1>LISTA DE USUARIOS</h1>
 
         <div class="table-container">
 
             <table class="table table-striped table-hover">
                 <tr>
-                    <th>VehiculoId</th>
-                    <th>Patente</th>
-                    <th>Marca</th>
-                    <th>Color</th>
-                    <th>Modelo</th>
-                    <th>Estado</th>
-                    <th>Tipo</th>
-                    <th>Acciones</th>
+                    <th>DNI</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edicion</th>
                 </tr>
 
                 <tr data-th-each="a : ${lista}">
-                    <td th:text="${a.vehiculoId}"></td>
-                    <td th:text="${a.patente}"></td>
-                    <td th:text="${a.marca}"></td>
-                    <td th:text="${a.color}"></td>
-                    <td th:text="${a.modelo}"></td>
-                    <td th:text="${a.estado}"></td>
-                    <td th:text="${a.tipoVehiculo}"></td>
+                    <td th:text="${a.dni}"></td>
+                    <td th:text="${a.nombre}"></td>
+                    <td th:text="${a.apellido}"></td>
                     <td>
-                        <a data-th-href="@{'/eliminarVehiculo/' + ${a.vehiculoId}}" class="btn btn-danger btn-sm">Borrar</a>
-                        <a data-th-href="@{'/modificarVehiculo/' + ${a.vehiculoId}}" class="btn btn-success btn-sm ms-2">Editar</a>
-
+                        <a data-th-href="@{'/eliminarUsuario/' + ${a.dni}}" class="btn btn-danger btn-sm">Borrar</a>
+                        <a data-th-href="@{'/modificarUsuario/' + ${a.dni}}" class="btn btn-success btn-sm ms-2">Editar</a>
                     </td>
                 </tr>
 
             </table>
 
+        </div>
+        <div class="text-center mt-4">
+            <a class="btn btn-dark" th:href="@{/usuario}">Agregar Nuevo Usuario</a>
         </div>
     </div>
 

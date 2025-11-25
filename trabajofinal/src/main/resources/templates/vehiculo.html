@@ -1,119 +1,130 @@
 <!DOCTYPE html>
-<html lang="es">
-
-<head>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vehiculos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>VEHÍCULO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
-<body>
-    <div class="container">
-        <header>
-            encabezado
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Vehiculos</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Carga de Vehiculo</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Mostrar Vehiculo</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                            </li>
-                        </ul>
+<body class="bg-light">
+
+    <div th:replace="~{layout :: header}"></div>
+
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="card shadow-lg p-4" style="width: 380px; border-radius: 15px;">
+
+            <h1 class="text-center mb-4">VEHÍCULO</h1>
+
+            <form th:object="${nuevoVehiculo}" th:action="${band} ? @{/modificarVehiculo} : @{/guardarVehiculo}"
+                method="post" enctype="multipart/form-data">
+
+                <input th:if="${band}" type="hidden" th:field="*{vehiculoId}" />
+
+                <label class="form-label">Patente</label>
+                <input class="form-control" type="text" placeholder="Ingresar patente" th:field="*{patente}"
+                    minlength="5" maxlength="20" required />
+                <span th:if="${#fields.hasErrors('patente')}" th:errors="*{patente}" class="text-danger small"></span>
+
+                <label class="form-label mt-3">Marca</label>
+                <select class="form-control" th:field="*{marca}" required>
+                    <option value="">Seleccionar marca</option>
+                    <option value="Toyota">Toyota</option>
+                    <option value="Ford">Ford</option>
+                    <option value="Volkswagen">Volkswagen</option>
+                    <option value="BMW">BMW</option>
+                </select>
+                <span th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}" class="text-danger small"></span>
+
+                <label class="form-label mt-3">Color</label>
+                <input class="form-control" type="text" th:field="*{color}" placeholder="Ej: Rojo" />
+                <span th:if="${#fields.hasErrors('color')}" th:errors="*{color}" class="text-danger small"></span>
+
+                <label class="form-label mt-3">Modelo</label>
+                <input class="form-control" type="text" placeholder="Ingresar modelo" th:field="*{modelo}" required />
+                <span th:if="${#fields.hasErrors('modelo')}" th:errors="*{modelo}" class="text-danger small"></span>
+
+                <label class="form-label mt-3">Tipo de Vehículo</label>
+                <select class="form-control" th:field="*{tipoVehiculo}" required>
+                    <option value="">Seleccionar tipo</option>
+                    <option value="BASE">BASE</option>
+                    <option value="LUXE">LUXE</option>
+                    <option value="PREMIUM">PREMIUM</option>
+                </select>
+                <span th:if="${#fields.hasErrors('tipoVehiculo')}" th:errors="*{tipoVehiculo}"
+                    class="text-danger small"></span>
+
+
+                <div class="mt-3">
+                    <label class="form-label d-block">Asignar Conductor</label>
+
+                    <div class="accordion" id="accordionConductor">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    Seleccionar DNI
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                data-bs-parent="#accordionConductor" style="max-height: 200px; overflow-y: auto;">
+                                <div class="accordion-body p-2">
+
+                                    <input type="hidden" id="selectedConductorDni" th:field="*{conductor.dni}" />
+
+                                    <div class="list-group">
+                                        <button type="button" class="list-group-item list-group-item-action py-1"
+                                            onclick="selectDni('', this)"> [Ninguno / Desasignar]
+                                        </button>
+
+                                        <button th:each="c : ${listaConductores}" type="button"
+                                            class="list-group-item list-group-item-action py-1"
+                                            th:text="${c.dni + ' (' + c.apellido + ')'}"
+                                            th:data-dni="${c.dni}"
+                                            onclick="selectDni(this.getAttribute('data-dni'), this)"> 
+                                        </button>
+                                    </div>
+
+                                    <p class="text-success small mt-2">
+                                        DNI seleccionado: <strong id="currentDniDisplay" 
+                                            th:text="*{conductor} != null and *{conductor.dni} ? *{conductor.dni} : 'N/A'">
+                                        </strong>
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </nav>
-        </header>
 
-        <main>
+                <button class="btn btn-dark w-100 mt-4" type="submit"
+                    th:text="${band} ? 'Modificar' : 'Ingresar'"></button>
+                <div th:if="${errorVehiculo}" class="alert alert-danger mt-3" th:text="${errorVehiculo}"></div>
 
-            <form>
-                <div class="row">
-                <div class="col-6">
-                    <label for="vehiculoId" class="form-label">VehiculoId</label>
-                    <input type="text" class="form-control" id="vehiculoId" aria-describedby="35;36..." placeholder="ingrese el Id de vehiculo completo" required>
-                </div>
-                <div class="col-6">
-                    <label for="patente" class="form-label">Patente</label>
-                    <input type="text" class="form-control" id="patente" aria-describedby="abc123;..." placeholder="ingrese la patente de vehiculo completo" required>
-                </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="marca" class="form-label">Marca</label>
-                    <input type="text" class="form-control" id="marca" aria-describedby="Ford, Peugeot..">
-                </div>
-                <div class="mb-3">
-                    <label for="color" class="form-label">Color</label>
-                    <input type="text" class="form-control" id="color">
-                </div>
-
-               <div class="mb-3">
-                    <label for="modelo" class="form-label">Modelo</label>
-                    <input type="text" class="form-control" id="modelo">
-                </div>
-
-                <div class="form-check">
-               <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault1">
-              <label class="form-check-label" for="radioDefault1">
-               Femenino
-  </label>
-</div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="radioDefault" id="radioDefault2" >
-  <label class="form-check-label" for="radioDefault2">
-    Masculino
-  </label>
-</div>
-                <button type="submit" class="btn btn-primary">Cargar Vehiculo</button>
             </form>
 
-
-             <div class="container text-center">
-                <div class="col-md-6">
-            <label class="form-label" for="tipoVehiculo">Tipo de vehículo</label>
-            <select class="form-select" id="tipoVehiculo" th:field="*{tipoVehiculo}" required>
-                <option value="">Seleccione...</option>
-                <option value="X">X (base)</option>
-                <option value="LUXE">Luxe (+10%)</option>
-                <option value="PREMIUM">Premium (+20%)</option>
-            </select>
-             </div>
-             
-                </div>
-                <div class="row">
-                    <div style="background-color: aqua;" class="col-7">columna de 9 espacios bootstrap</div>
-                    <div style="background-color: rgb(21, 79, 79);" class="col-3">columna de 3 espacios bootstrap</div>
-                    <div style="background-color: rgb(211, 71, 106);" class="col-2">columna de 6 espacios bootstrap
-                    </div>
-                </div>
-            </div>
-
-
-
-        </main>
-
-        <footer> Quick Car por Cardozo-Aramayo </footer>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function selectDni(dni, buttonElement) {
+            document.getElementById('selectedConductorDni').value = dni;
+
+            let displayElement = document.getElementById('currentDniDisplay');
+            
+            let buttonText = buttonElement ? buttonElement.textContent.trim() : (dni === '' ? 'N/A' : dni);
+            
+            displayElement.textContent = buttonText;
+
+            const collapseElement = document.getElementById('collapseOne');
+            const bsCollapse = new bootstrap.Collapse(collapseElement, { toggle: false });
+            bsCollapse.hide();
+        }
+    </script>
 </body>
+
 
 </html>
